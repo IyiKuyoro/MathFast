@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:myapp/store/Results.dart';
+import 'package:myapp/StatelessWidgets/ResultsList.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  Home({Key key}) : super(key: key);
+
+  @override
+  _MyHomeState createState() => _MyHomeState();
+}
+
+class _MyHomeState extends State<Home> {
+  int _selectedIndex = 0;
+
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // Scaffold is a layout for the major Material Components.
-    return Scaffold(
+    return  Scaffold(
       appBar: AppBar(
         title: Text('Math Quiz'),
         actions: <Widget>[
@@ -16,9 +34,7 @@ class Home extends StatelessWidget {
         ],
       ),
       // body is the majority of the screen.
-      body: Center(
-        child: Text('Hello, world!'),
-      ),
+      body: ResultsList(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -26,13 +42,13 @@ class Home extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.school),
-            label: 'School',
+            icon: Icon(Icons.play_arrow),
+            label: 'Play',
           ),
         ],
-        currentIndex: 0,
+        currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
-        // onTap: _onItemTapped,
+        onTap: _onItemTapped,
       ),
     );
   }
