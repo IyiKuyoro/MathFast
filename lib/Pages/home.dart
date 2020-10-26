@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:myapp/Pages/game.dart';
 import 'package:myapp/store/Results.dart';
 import 'package:myapp/StatelessWidgets/ResultsList.dart';
 
@@ -12,7 +13,10 @@ class Home extends StatefulWidget {
 
 class _MyHomeState extends State<Home> {
   int _selectedIndex = 0;
-
+  final List<Widget> _children = [
+    ResultsList(),
+    GameWidget(),
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -34,7 +38,7 @@ class _MyHomeState extends State<Home> {
         ],
       ),
       // body is the majority of the screen.
-      body: ResultsList(),
+      body: _children[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(

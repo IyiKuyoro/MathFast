@@ -14,7 +14,6 @@ class ResultsList extends StatelessWidget {
                 new ResultListItem(list[position]));
       },
       converter: (store) {
-        print(store.state);
         return store.state;
       },
     );
