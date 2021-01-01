@@ -18,6 +18,14 @@ prod-debug:
 prod-release:
 	flutter run --dart-define=DEFINE_ENV=prod --dart-define=DEFINE_APP_SUFFIX=.production --dart-define=DEFINE_APP_NAME=MathFast --release
 
+.PHONY: build-ios
+build-ios:
+	flutter build ios --dart-define=DEFINE_ENV=prod --dart-define=DEFINE_APP_SUFFIX=.production --dart-define=DEFINE_APP_NAME=MathFast --release
+
+.PHONY: build-appbundle
+build-appbundle:
+	flutter build appbundle --dart-define=DEFINE_ENV=prod --dart-define=DEFINE_APP_SUFFIX=.production --dart-define=DEFINE_APP_NAME=MathFast --release
+
 .PHONY: test
 test:
 	flutter test --coverage
