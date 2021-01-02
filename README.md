@@ -1,3 +1,3 @@
-# myapp
+# MathFast
 
-Sample flutter app for simple math quiz.
+An exciting competitive mobile app game for all.
