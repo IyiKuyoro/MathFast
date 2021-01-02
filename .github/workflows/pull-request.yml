@@ -39,7 +39,7 @@ jobs:
           lcov-file: ./coverage/lcov.info
 
       - name: Build build-appbundle
-        run: flutter build ios --dart-define=DEFINE_ENV=prod --dart-define=DEFINE_APP_SUFFIX=.development --dart-define=DEFINE_APP_NAME=MathFast --release --no-codesign
+        run: make build-appbundle
 
       - name: Build IOS
-        run: make build-ios
+        run: flutter build ios --dart-define=DEFINE_ENV=prod --dart-define=DEFINE_APP_SUFFIX=.ci --dart-define=DEFINE_APP_NAME=MathFast --release --no-codesign
