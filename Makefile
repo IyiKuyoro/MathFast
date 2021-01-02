@@ -20,7 +20,7 @@ prod-release:
 
 .PHONY: build-ios
 build-ios:
-	flutter build ios --dart-define=DEFINE_ENV=prod --dart-define=DEFINE_APP_SUFFIX=.production --dart-define=DEFINE_APP_NAME=MathFast --release
+	flutter build ios --dart-define=DEFINE_ENV=prod --dart-define=DEFINE_APP_SUFFIX=.production --dart-define=DEFINE_APP_NAME=MathFast --release --no-codesign
 
 .PHONY: build-appbundle
 build-appbundle:
