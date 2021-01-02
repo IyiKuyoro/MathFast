@@ -4,6 +4,7 @@
         "appbundle",
         "codesign",
         "cupertino",
+        "rxdart",
         "subosito"
     ]
 }
