@@ -1,0 +1,45 @@
+name: Test - Build
+
+on:
+  pull_request:
+
+jobs:
+  test-and-build-android:
+    name: Test and Build
+    runs-on: macos-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Flutter action
+        uses: subosito/flutter-action@v1.4.0
+
+      - name: Setup Java
+        uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '1.22.4'
+
+      - name: Install Dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: make test
+
+      - name: Report Coverage
+        uses: romeovs/lcov-reporter-action@v0.2.16
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          lcov-file: ./coverage/lcov.info
+
+      - name: Build build-appbundle
+        run: make build-appbundle
+
+      - name: Build IOS
+        run: flutter build ios --dart-define=DEFINE_ENV=prod --dart-define=DEFINE_APP_SUFFIX=.ci --dart-define=DEFINE_APP_NAME=MathFast --release --no-codesign
