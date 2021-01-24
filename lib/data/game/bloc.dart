@@ -1,42 +1,38 @@
-import 'dart:async';
-
-import 'package:math_fast/data/bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:math_fast/data/bloc_mixin.dart';
 import 'package:math_fast/data/game/model.dart';
-import 'package:math_fast/utils/exceptions/game_exceptions.dart';
 
-class GameBloc implements Bloc {
-  Game _game;
-  Map<String, Game> _games;
-  final _gameController = StreamController<Game>();
-  final _gamesController = StreamController<Map<String, Game>>();
+enum GameEvent {
+  start,
+  stop,
+  pause,
+}
 
-  /// Get the game stream
-  Stream<Game> get gameStream => _gameController.stream.asBroadcastStream();
+class GameBloc extends Bloc<GameEvent, Game> with BlocMixin<GameEvent, Game> {
+  // Creates a game state from an existing game
+  GameBloc({Game game}) : super(game);
 
-  /// Get the list og games stream
-  Stream<Map<String, Game>> get gamesStream =>
-      _gamesController.stream.asBroadcastStream();
+  /// Creates the initial Game state for a new game
+  GameBloc.newGame() : super(Game.newGame());
 
-  /// Change the selected game by [gameCode]
-  Game selectGame(String gameCode) {
-    Game game = _games[gameCode];
-
-    if (game == null) throw GameDoesNotExist();
-
-    _game = game;
-    _gameController.sink.add(game);
-    return _game;
-  }
-
-  /// Add a new [game] to the games
-  void addGame(Game game) {
-    _games[game.gameCode] = game;
-    _gamesController.sink.add(_games);
-  }
-
+  /// Handles GameEvent to modify Game State
   @override
-  void dispose() {
-    _gameController.close();
-    _gamesController.close();
+  Stream<Game> mapEventToState(GameEvent event) async* {
+    try {
+      switch (event) {
+        case GameEvent.start:
+          state.gameState = GameState.started;
+          break;
+        case GameEvent.stop:
+          state.gameState = GameState.ended;
+          break;
+        case GameEvent.pause:
+          state.pauseGame();
+          break;
+        default:
+      }
+    } finally {
+      yield state;
+    }
   }
 }
