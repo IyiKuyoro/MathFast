@@ -1,33 +1,54 @@
+import 'dart:collection';
+
 import 'package:bloc/bloc.dart';
 import 'package:math_fast/data/bloc_mixin.dart';
+import 'package:math_fast/data/game/event.dart';
 import 'package:math_fast/data/game/model.dart';
 
-enum GameEvent {
-  start,
-  stop,
-  pause,
-}
-
 class GameBloc extends Bloc<GameEvent, Game> with BlocMixin<GameEvent, Game> {
-  // Creates a game state from an existing game
-  GameBloc({Game game}) : super(game);
-
-  /// Creates the initial Game state for a new game
-  GameBloc.newGame() : super(Game.newGame());
+  /// Creates a game state from an existing game
+  GameBloc(Game initialState) : super(initialState);
 
   /// Handles GameEvent to modify Game State
   @override
   Stream<Game> mapEventToState(GameEvent event) async* {
     try {
-      switch (event) {
-        case GameEvent.start:
+      switch (event.runtimeType) {
+        case StartGameEvent:
           state.gameState = GameState.started;
           break;
-        case GameEvent.stop:
+        case StopGameEvent:
           state.gameState = GameState.ended;
           break;
-        case GameEvent.pause:
+        case PauseGameEvent:
           state.pauseGame();
+          break;
+        default:
+      }
+    } finally {
+      yield state;
+    }
+  }
+}
+
+class GamesBloc extends Bloc<GamesEvent, HashMap<String, Game>>
+    with BlocMixin<GamesEvent, HashMap<String, Game>> {
+  /// Creates the games state from exhisiting games has map
+  GamesBloc(HashMap<String, Game> initialState) : super(initialState);
+
+  /// Handles GamesEvent to modify the Games state
+  @override
+  Stream<HashMap<String, Game>> mapEventToState(GamesEvent event) async* {
+    try {
+      switch (event.runtimeType) {
+        case CreateGameEvent:
+          Game newGame = Game.newGame();
+          state[newGame.gameCode] = newGame;
+          break;
+        case DeleteGameEvent:
+          DeleteGameEvent removeGameEvent = event as DeleteGameEvent;
+          Game gameToBeRemoved = removeGameEvent.game;
+          state.remove(gameToBeRemoved.gameCode);
           break;
         default:
       }
