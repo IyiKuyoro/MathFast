@@ -8,12 +8,13 @@ environment:
 
 dependencies:
   bloc: ^6.1.1
+  cupertino_icons: ^1.0.0
   flutter:
     sdk: flutter
-  provider: ^3.0.0
-  cupertino_icons: ^1.0.0
-  rxdart: ^0.18.0
+  flutter_bloc: ^6.1.1
   http: ^0.12.0+1
+  provider: ^4.3.2+2
+  rxdart: ^0.18.0
 
 dev_dependencies:
   flutter_test:

@@ -42,8 +42,8 @@ class GamesBloc extends Bloc<GamesEvent, HashMap<String, Game>>
     try {
       switch (event.runtimeType) {
         case CreateGameEvent:
-          Game newGame = Game.newGame();
-          state[newGame.gameCode] = newGame;
+          CreateGameEvent createGameEvent = event as CreateGameEvent;
+          state[createGameEvent.game.gameCode] = createGameEvent.game;
           break;
         case DeleteGameEvent:
           DeleteGameEvent removeGameEvent = event as DeleteGameEvent;

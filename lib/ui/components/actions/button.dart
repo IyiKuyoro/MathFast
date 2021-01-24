@@ -3,8 +3,12 @@ import 'package:math_fast/utils/helper_functions.dart';
 
 class Button extends StatelessWidget {
   final String text;
+  final Function onPressed;
 
-  Button({this.text = ""});
+  Button({
+    this.text = "",
+    this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +20,7 @@ class Button extends StatelessWidget {
         maxSize: 300,
       ),
       child: ElevatedButton(
-        onPressed: () {
-          print("Pressed");
-        },
+        onPressed: onPressed,
         child: Text(
           this.text,
           style: TextStyle(
