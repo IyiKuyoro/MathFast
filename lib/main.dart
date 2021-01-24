@@ -1,27 +1,35 @@
 import 'package:flutter/material.dart';
-import 'package:math_fast/ui/pages/home_page.dart';
+import 'package:math_fast/data/game/bloc.dart';
+import 'package:math_fast/routes/root_route.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(MathFastApp());
 }
 
-class MyApp extends StatelessWidget {
+class MathFastApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return MathFastAppState();
+  }
+}
+
+class MathFastAppState extends State<MathFastApp> {
+  AppRouterDelegate _routerDelegate;
+  AppRouteInformationParser _routeInformationParser;
+
+  MathFastAppState() {
+    GameBloc gameBloc = GameBloc();
+    _routerDelegate = AppRouterDelegate(gameBloc: gameBloc);
+    _routeInformationParser = AppRouteInformationParser(gameBloc: gameBloc);
+  }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'MathFast',
-      onGenerateRoute: (
-        RouteSettings routeSettings,
-      ) =>
-          MaterialPageRoute(
-        builder: (context) => Container(
-          color: Colors.white,
-          child: SafeArea(
-            child: HomePage(),
-          ),
-        ),
-      ),
+      routerDelegate: _routerDelegate,
+      routeInformationParser: _routeInformationParser,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         colorScheme: ColorScheme(
