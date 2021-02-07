@@ -1,23 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:math_fast/ui/components/page_container.dart';
-import 'package:math_fast/ui/pages/game_page.dart';
+import 'package:math_fast/ui/pages/game_start_page.dart';
 
-MaterialPageRoute gameRouter(List uriPathSegments) {
-  return MaterialPageRoute(
-    builder: (BuildContext context) {
-      if (uriPathSegments.length == 2) {
-        String gameCode = uriPathSegments.first;
-        String page = uriPathSegments.last;
+Widget gameRouter(List uriPathSegments) {
+  if (uriPathSegments.length == 2) {
+    String gameCode = uriPathSegments.first;
+    String page = uriPathSegments.last;
 
-        switch (page) {
-          case 'new':
-            return GameStartPage(gameCode: gameCode);
-            break;
-          default:
-        }
-      }
+    switch (page) {
+      case 'new':
+        return GameStartPage(gameCode: gameCode);
+      default:
+    }
+  }
 
-      return PageContainer(child: Text('Unknown'));
-    },
-  );
+  return null;
 }

@@ -15,22 +15,27 @@ class HomePage extends StatelessWidget {
         BuildContext context,
         HashMap<String, Game> state,
       ) {
-        return Container(
-          child: Column(
-            children: [
-              Button(
-                text: 'Play',
-                onPressed: () {
-                  CreateGameEvent createGameEvent = CreateGameEvent();
-                  context.read<GamesBloc>().add(createGameEvent);
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    'games/${createGameEvent.game.gameCode}/new',
-                    (route) => false,
-                  );
-                },
+        return Scaffold(
+          body: Center(
+            child: Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Button(
+                    text: 'Play',
+                    onPressed: () {
+                      CreateGameEvent createGameEvent = CreateGameEvent();
+                      context.read<GamesBloc>().add(createGameEvent);
+                      Navigator.pushNamed(
+                        context,
+                        'games/${createGameEvent.game.gameCode}/new',
+                      );
+                    },
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
         );
       },
