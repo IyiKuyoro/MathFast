@@ -8,12 +8,14 @@ class OptionSelector extends StatelessWidget {
   final String name;
   final String label;
   final List<DropdownMenuItem> options;
+  final Function onChanged;
   final List<String Function(dynamic)> validators;
 
   OptionSelector({
     this.widgetKey,
     @required this.name,
     this.label = '',
+    this.onChanged,
     this.options = const [],
     this.validators = const [],
   });
@@ -37,6 +39,7 @@ class OptionSelector extends StatelessWidget {
               itemHeight: 48,
               key: widgetKey,
               attribute: name,
+              onChanged: (value) => onChanged(value),
               style: TextStyle(
                 fontFamily: 'Comfortaa',
                 fontWeight: FontWeight.w100,

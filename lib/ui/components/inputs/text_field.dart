@@ -8,14 +8,18 @@ class TextInput extends StatelessWidget {
   final String name;
   final String label;
   final TextInputType inputType;
+  final Function onChanged;
   final List<String Function(dynamic)> validators;
+  final String errorText;
 
   TextInput({
     this.widgetKey,
     @required this.name,
+    this.onChanged,
     this.inputType,
     this.label = '',
     this.validators = const [],
+    this.errorText,
   });
 
   @override
@@ -38,12 +42,14 @@ class TextInput extends StatelessWidget {
               attribute: name,
               validators: validators,
               keyboardType: inputType,
+              onChanged: (value) => onChanged(value),
               style: TextStyle(
                 fontFamily: 'Comfortaa',
                 fontWeight: FontWeight.w100,
                 fontSize: 18,
               ),
               decoration: InputDecoration(
+                errorText: errorText,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
                     Radius.circular(5),

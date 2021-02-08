@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:math_fast/data/bloc_mixin.dart';
 import 'package:math_fast/data/game/event.dart';
 import 'package:math_fast/data/game/model.dart';
+import 'package:math_fast/utils/exceptions/game_exceptions.dart';
 
 class GameBloc extends Bloc<GameEvent, Game> with BlocMixin<GameEvent, Game> {
   /// Creates a game state from an existing game
@@ -22,6 +23,26 @@ class GameBloc extends Bloc<GameEvent, Game> with BlocMixin<GameEvent, Game> {
           break;
         case PauseGameEvent:
           state.pauseGame();
+          break;
+        case ChangeGameDuration:
+          state.clearError(event.errorKey);
+          try {
+            ChangeGameDuration changeGameDurationEvent =
+                event as ChangeGameDuration;
+            state.changeDuration(changeGameDurationEvent.newDuration);
+          } on GameSettingsException catch (error) {
+            state.addError(event.errorKey, error.message);
+          }
+          break;
+        case ChangeGameDifficulty:
+          state.clearError(event.errorKey);
+          try {
+            ChangeGameDifficulty changeGameDifficultyEvent =
+                event as ChangeGameDifficulty;
+            state.changeDifficuty(changeGameDifficultyEvent.newDifficulty);
+          } on GameSettingsException catch (error) {
+            state.addError(event.errorKey, error.message);
+          }
           break;
         default:
       }
