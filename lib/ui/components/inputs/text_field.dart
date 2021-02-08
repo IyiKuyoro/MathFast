@@ -35,7 +35,6 @@ class TextInput extends StatelessWidget {
             fontSize: 18,
           ),
           Container(
-            height: 48,
             margin: EdgeInsets.only(top: 9),
             child: FormBuilderTextField(
               key: widgetKey,
@@ -49,6 +48,7 @@ class TextInput extends StatelessWidget {
                 fontSize: 18,
               ),
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.zero,
                 errorText: errorText,
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.all(
