@@ -148,9 +148,10 @@ class GameStartPage extends StatelessWidget {
                                   padding: EdgeInsets.only(left: 10, right: 10),
                                   margin: EdgeInsets.only(top: 30),
                                   onPressed: () {
-                                    Navigator.pushNamed(
+                                    Navigator.pushNamedAndRemoveUntil(
                                       context,
                                       'games/${game.gameCode}/playing',
+                                      (_) => false,
                                     );
                                   },
                                 ),
