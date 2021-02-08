@@ -147,7 +147,12 @@ class GameStartPage extends StatelessWidget {
                                   maxWidth: 300,
                                   padding: EdgeInsets.only(left: 10, right: 10),
                                   margin: EdgeInsets.only(top: 30),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                      context,
+                                      'games/${game.gameCode}/playing',
+                                    );
+                                  },
                                 ),
                               ],
                             ),

@@ -84,12 +84,20 @@ class Game extends Model {
 
   /// Change difficulty
   GameSettings changeDifficuty(GameDifficulty newDifficulty) {
+    if (!canChangeState) throw EndedGameException(game: this);
+    if (_gameState == GameState.started)
+      throw GameAlreadyStartedException(game: this);
+
     _gameSettings.difficulty = newDifficulty;
     return _gameSettings;
   }
 
   /// Change duration
   GameSettings changeDuration(int newDuration) {
+    if (!canChangeState) throw EndedGameException(game: this);
+    if (_gameState == GameState.started)
+      throw GameAlreadyStartedException(game: this);
+
     _gameSettings.duration = newDuration;
     return _gameSettings;
   }

@@ -14,6 +14,7 @@ class GameBloc extends Bloc<GameEvent, Game> with BlocMixin<GameEvent, Game> {
   @override
   Stream<Game> mapEventToState(GameEvent event) async* {
     try {
+      state.clearError(event.errorKey);
       switch (event.runtimeType) {
         case StartGameEvent:
           state.gameState = GameState.started;
@@ -25,27 +26,23 @@ class GameBloc extends Bloc<GameEvent, Game> with BlocMixin<GameEvent, Game> {
           state.pauseGame();
           break;
         case ChangeGameDuration:
-          state.clearError(event.errorKey);
-          try {
-            ChangeGameDuration changeGameDurationEvent =
-                event as ChangeGameDuration;
-            state.changeDuration(changeGameDurationEvent.newDuration);
-          } on GameSettingsException catch (error) {
-            state.addError(event.errorKey, error.message);
-          }
+          ChangeGameDuration changeGameDurationEvent =
+              event as ChangeGameDuration;
+          state.changeDuration(changeGameDurationEvent.newDuration);
           break;
         case ChangeGameDifficulty:
-          state.clearError(event.errorKey);
-          try {
-            ChangeGameDifficulty changeGameDifficultyEvent =
-                event as ChangeGameDifficulty;
-            state.changeDifficuty(changeGameDifficultyEvent.newDifficulty);
-          } on GameSettingsException catch (error) {
-            state.addError(event.errorKey, error.message);
-          }
+          ChangeGameDifficulty changeGameDifficultyEvent =
+              event as ChangeGameDifficulty;
+          state.changeDifficuty(changeGameDifficultyEvent.newDifficulty);
           break;
         default:
       }
+    } on EndedGameException catch (_) {
+      // TODO: Handle error with notification to screen
+    } on GameAlreadyStartedException catch (_) {
+      // TODO: Handle error with notification to screen
+    } on GameSettingsException catch (error) {
+      state.addError(event.errorKey, error.message);
     } finally {
       yield state;
     }
