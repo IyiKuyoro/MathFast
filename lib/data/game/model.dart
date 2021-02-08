@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:math_fast/data/model.dart';
 import 'package:math_fast/utils/exceptions/game_exceptions.dart';
 import 'package:math_fast/utils/helper_functions.dart';
 
@@ -37,20 +37,18 @@ class GameSettings {
   }
 }
 
-class Game {
+class Game extends Model {
   String gameCode;
   GameState _gameState;
   bool _isPaused;
   GameSettings _gameSettings;
-  Map<Key, String> errorMap;
 
   /// Create a new game instance in a not started state
   Game.newGame()
       : _gameState = GameState.notStarted,
         _isPaused = false,
         _gameSettings = GameSettings(GameDifficulty.easy, 30),
-        gameCode = genCode(prefix: 'GAM'),
-        errorMap = {};
+        gameCode = genCode(prefix: 'GAM');
 
   /// Returns the current game state
   GameState get gameState => _gameState;
@@ -94,20 +92,5 @@ class Game {
   GameSettings changeDuration(int newDuration) {
     _gameSettings.duration = newDuration;
     return _gameSettings;
-  }
-
-  /// Clear error
-  void clearError(Key errorKey) {
-    errorMap.remove(errorKey);
-  }
-
-  /// Add error
-  void addError(Key errorKey, String error) {
-    errorMap[errorKey] = error;
-  }
-
-  /// Get error message
-  String getErrorMessage(Key errorKey) {
-    return errorMap[errorKey];
   }
 }
