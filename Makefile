@@ -28,11 +28,10 @@ build-appbundle:
 
 .PHONY: test
 test:
-	flutter test --coverage
-
-.PHONY: htmlcoverage
-htmlcoverage:
-	genhtml coverage/lcov.info -o coverage/html
+	( \
+		flutter test --coverage; \
+		genhtml coverage/lcov.info -o coverage/html; \
+	)
 
 .PHONY: icon-gen
 icon-gen:

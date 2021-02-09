@@ -27,7 +27,7 @@ jobs:
         run: flutter pub get
 
       - name: Run tests
-        run: make test
+        run: flutter test --coverage
 
       - name: Report Coverage
         uses: romeovs/lcov-reporter-action@v0.2.16
