@@ -19,21 +19,27 @@ class GameSettings {
   int _duration;
 
   /// Create new game settings
-  GameSettings(this.difficulty, duration) : _duration = duration;
+  GameSettings(this.difficulty, duration) {
+    _checkDuration(duration);
+    _duration = duration;
+  }
 
   /// Returns the game duration
   int get duration => _duration;
 
   /// Adjust the game duration
   set duration(int value) {
-    if (value <= 0)
-      throw GameSettingsException(
-          message: 'Game duration cannot be less than zero.');
-    if (value > 120)
-      throw GameSettingsException(
-          message: 'Game duration cannot exceed 2 min.');
-
+    _checkDuration(value);
     _duration = value;
+  }
+
+  static void _checkDuration(int duration) {
+    if (duration < 10 || duration > 120) {
+      throw GameSettingsException(
+        message:
+            'Game duration cannot be less than 10 Secs or greater than 2 Mins.',
+      );
+    }
   }
 }
 
