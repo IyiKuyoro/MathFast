@@ -9,10 +9,12 @@ class Button extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry margin;
   final double height;
+  final bool disabled;
 
   Button({
     this.text = "",
     this.onPressed,
+    this.disabled = false,
     this.foreground = Colors.black,
     this.maxWidth = 300,
     this.padding = EdgeInsets.zero,
@@ -32,7 +34,7 @@ class Button extends StatelessWidget {
         maxSize: maxWidth,
       ),
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: disabled ? null : onPressed,
         child: Text(
           this.text,
           style: TextStyle(
@@ -62,6 +64,9 @@ class Button extends StatelessWidget {
                   Theme.of(context).colorScheme.primaryVariant),
           backgroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
+              if (states.contains(MaterialState.disabled))
+                return Color(0xffd1d1d1);
+
               if (states.contains(MaterialState.pressed))
                 return Theme.of(context).colorScheme.primaryVariant;
 

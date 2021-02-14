@@ -10,11 +10,23 @@ import 'package:math_fast/ui/components/actions/button.dart';
 import 'package:math_fast/ui/components/inputs/option_selector.dart';
 import 'package:math_fast/ui/components/inputs/text_field.dart';
 
-class GameStartPage extends StatelessWidget {
+class GameStartPage extends StatefulWidget {
   final String gameCode;
-  final _formKey = GlobalKey<FormBuilderState>(debugLabel: 'Game-Settings');
 
   GameStartPage({@required this.gameCode});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _GameStartPageState(gameCode: gameCode);
+  }
+}
+
+class _GameStartPageState extends State<GameStartPage> {
+  final String gameCode;
+  bool isValid = true;
+  final _formKey = GlobalKey<FormBuilderState>(debugLabel: 'Game-Settings');
+
+  _GameStartPageState({@required this.gameCode});
 
   Widget durationInput(BuildContext context, Game game) {
     Key errorKey = Key('Game-Start-Page-Duration');
@@ -112,6 +124,12 @@ class GameStartPage extends StatelessWidget {
                           SafeArea(
                             child: InkWell(
                               onTap: () {
+                                // Delete game since it was not started
+                                context.read<GamesBloc>().add(
+                                      DeleteGameEvent(
+                                        game: game,
+                                      ),
+                                    );
                                 Navigator.pop(context);
                               },
                               child: Container(
@@ -131,7 +149,18 @@ class GameStartPage extends StatelessWidget {
                               'duration': '30',
                               'difficulty': GameDifficulty.easy,
                             },
-                            onChanged: (_) {},
+                            onChanged: (_) {
+                              if (_formKey.currentState != null &&
+                                  _formKey.currentState.validate()) {
+                                setState(() {
+                                  isValid = true;
+                                });
+                              } else {
+                                setState(() {
+                                  isValid = false;
+                                });
+                              }
+                            },
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -145,6 +174,7 @@ class GameStartPage extends StatelessWidget {
                                   maxWidth: 300,
                                   padding: EdgeInsets.only(left: 10, right: 10),
                                   margin: EdgeInsets.only(top: 30),
+                                  disabled: !isValid,
                                   onPressed: () {
                                     Navigator.pushNamedAndRemoveUntil(
                                       context,

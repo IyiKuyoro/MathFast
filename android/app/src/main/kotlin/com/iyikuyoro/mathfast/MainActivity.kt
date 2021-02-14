@@ -1,4 +1,4 @@
-package com.example.myapp
+package com.iyikuyoro.mathfast
 
 import io.flutter.embedding.android.FlutterActivity
 
