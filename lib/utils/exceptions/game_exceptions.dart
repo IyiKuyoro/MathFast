@@ -34,13 +34,9 @@ class GameAlreadyStartedException extends GameException {
 }
 
 /// Used to signify a game settings exception
-class GameSettingsException extends GameException {
+class GameSettingsException implements Exception {
   final String message;
 
   /// Creates a game settings exception
-  GameSettingsException({@required Game game, @required this.message})
-      : super(
-          game: game,
-          message: message,
-        );
+  GameSettingsException({@required this.message});
 }

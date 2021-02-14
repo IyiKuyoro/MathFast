@@ -45,6 +45,9 @@ class GameBloc extends Bloc<GameEvent, Game> with BlocMixin<GameEvent, Game> {
     } on GameException catch (error) {
       state.addError(event.errorKey, error.message);
       yield state;
+    } on GameSettingsException catch (error) {
+      state.addError(event.errorKey, error.message);
+      yield state;
     }
   }
 }
