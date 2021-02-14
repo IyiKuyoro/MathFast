@@ -7,14 +7,12 @@ mixin BlocMixin<S, T> on Bloc<S, T> {
   @override
   void onEvent(S event) {
     super.onEvent(event);
-    print(event);
   }
 
   /// Hookup change
   @override
   void onChange(Change<T> change) {
     super.onChange(change);
-    print(change);
   }
 
   /// similar to [onChange], however, it contains the event which triggered
@@ -22,12 +20,10 @@ mixin BlocMixin<S, T> on Bloc<S, T> {
   @override
   void onTransition(Transition<S, T> transition) {
     super.onTransition(transition);
-    print(transition);
   }
 
   @override
   void onError(Object error, StackTrace stackTrace) {
-    print('$error, $stackTrace');
     super.onError(error, stackTrace);
   }
 }
