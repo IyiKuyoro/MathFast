@@ -1,0 +1,84 @@
+# Automatically generated on 2021-02-14 UTC from https://codemagic.io/app/6028a8397236299eff2af309/settings
+# Note that this configuration is not an exact match to UI settings. Review and adjust as necessary.
+
+workflows:
+  default-workflow:
+    name: Default Workflow
+    instance_type: mac_pro
+    max_build_duration: 60
+    environment:
+      vars:
+        GCLOUD_KEY_FILE: Encrypted(Z0FBQUFBQmdLWnhfdGtFSER4dkZMbmZDWnZxRnhkbEQ3VTV4QWFhcFo2NEk2ZmtGUFFlUEFPNUdWY1h5RzJ6amlENEV6V2FlWWw0dzJkY2ZveFRkQXB3aFNwVUJYdHJGYWl2SnRaamFtTms4Wnd6bzRvVjdvaUo3UjNvZ25BQmExamlNalNCdlU3Z2NZMm9QUmh4MUdFWF9xSTlZd3BaTkY1Zm8ycndCZEVndURqcDduWmhidUhyX2tyUDcyY3ZMQUNfY3l3UnhBbHVGU3d3d2lSSjM3dmRNQXFoa3EtTEZWQzYyS0pZQ042elFhN3M5cXhVNWl4eGdxY0RYVWJwZm90eWZXV1RDTGxsdklHcGp1NzQxRFhLRzdpNlRHajNSS1E4NmxtcXRrTDlYZEd3V2RBZVk4Q3RxQkZlNHZxUmFGQVdzRGVfZ0lGR1dBdkctTmQ4azZHejNQTzBNYVAzQmxkdU5LZENxcHJ0QVpQZ0FSa2lEZXpUcmNNcTF5M29EV05NbEtzYlhranc2eGRUa3Q3cGpmVGVyRkFiTW16RWcxaFZ2YXRRRElHNjFCRGdQTUx2aWtFbDdjN0MtaXJGeGFMM0hVbkZfaGgwVC1nWGJnVUM3YjF3VmY4ZU1uYjhjcVFqVmM2Z0pFT1Q5SnFwNVdvSXBPeXVWZlp4T1QyVXdkdnVORXctX096cHZMOTVRZ1JXQkhoWUZNTkhyM21na0tCYTZONEphSnY0WVoyQXppUUpMZThOeFYxb1hyeXQ4dE16dUI0enYzaFZJSmFtZ01tYjdqcGhkSlZtT1RVaW1MYjZTckV0X1BMMGRYblBPanBIUGduaUlvT1M0R3lMaTlZUG1zcGxUYXp3R2EzbUtpOUx3ZmdGWjlmQVF3MUNmQ2tRLWI3SEVoM2JXdDRyY0JZRjlhRWxIWHFUeDVHWE0xSC1VLUJrcS00cnZqVW9FckljWUduMU4xZVZUcjFMOVVQVFBnYWNrTjl6ZGFKOFIyQUtRM3JQTkdFZHdLMzVDdDhMaXFjbUc2NFpJcHF2R3hQUkpaTlRfN0tlVmtUVUFiZzc5TTlPYW9lZDREcTAyXzItSnBpSWdVSC1obG1qMlU1c092ZlNmQV9ub2p1TUdGeW92cW9yNk15QUxOYlkyV3FTMjJieUpCd2V1MjladXJhVEMtYXl1R1pUT0YzZEhxQnhrWUszb1NUa2RJZkhfZ3F1MndlMV94emhGOWpnWnE3MHRWaXFxZmFWbnV4Nk1La0xYSDduSzhxSlNYRU55TmR3YXZhZzNIYmVuVkJfR3NxbVVGNnNNMFBBR2taZTY4UlN0MFdaTVdyMEwyQkdrbmtMd3g3dXNqb2hORlJSTVllZ2lvLVNER05ySERSMUpfYmhCZmRFYUl4SnIyakFpOF9xTEFBZnNYYkJkVGV0VzJpdTd5ek4xdk9pMTlCa05YTlVWcWFQVDZyaHdtLXhfcjg2LTFfYXpwUXJVZXNKcDh2ajdaZkNKX3Q5VnVIclduLTQ3dlNjZ1NTcHgxa05GUURNNk5COWgyVEJGR3B5QWVaSEpjUEduczRpNmNubm9OdlVUSVl1VHktejVDY0NySTB0MWh1Ukc5Mmw3dFJ0VGl0ZExGcXA3aW5mSDl2bk5OazJ4X1F4QWJtbEYyVEZCQ2tXbWx3QnliUXA0d1JHS2l3cjdKSEVCS2VUZ29XQnd2anJjRUIzZ0F1eHVIVGt4bXhVNzBSa2dYWjA1Mkpzb3VOdzJYczdEemJPLWlOUW9sbVB3UElGaVQyVjZnWXA4TGExaFpvTWFyNXZnTjZ6R0piUnJqX200NE12alhEUHowMmRtR2xkcWRibEcxajdsUWk0RFRFNnh4V2tPOU9yeFRldFRSRmY3UVVJWTN0bjNGbjBDZWF4RmJaSUJhYTNaWXdjakZEWHVPUkFGVWhIUWIzazF1NEY1QmJyU1dXdFFVWGtkZnZSVU9iQ3lCZS05dkNsbjdoLUVGZEswRVN5Z0tmS3lLZW1PTWRyd3FtcEJBUDZOYktJZkpWU1BxT1NkcWtZV0VfX0R0a0hNMzFhZHBnVEQ4bE11YUdzOUw2VnZHbkw3SWxVc2JoclBfcVIxWnRLaUwtbWJIWndKY3hjbU16clFsM1YzZEVYUXVoTjNaMGx2cXdKTERnOUtueFIzdk5mc3lUbDVYQkZFQnJYX3RwQ1NMaVFPT0dkb2RtVVNfTDdKcEJ1a2RNa005T0pwUEJadDZhWkJ5Z05lVDFXT0lQNS1YcExOZU5YMEdwYkxGV0pISmdzSnlpeExpdUhvOFZiSnpZTU1YNnFqNXd4SGdKVXpDVkF0cXUxWndjU2ZTZTBtZUZLSWw1bHFxU1JoYXhjTU9xVGctMVBmejZhT0lyRWM4cHFPbUVpMC1TVElEOU1vSnJlTkNKOHlIWjVSZ0F6WTlTMDkyLU5VTXVxVFNMa21MZ3FMblJlbnU3QnFtcWtmZDdNeV9tSW1TM1ItbWhsZzAtcHNBaEJoQmw2Z1VJVjNicXY0S0p2R3ItRm1VdTJhYkZfRTZCbkcyR1FKNjJTZTA5QWtKVzBYMzgtaFVXZklyT21EWWQyaHNNT1pnZmFwcUJDQk5FSzNzQ2V6OEVBWGQzdGcyZmpUTUtfRjRYaGUxQlczczllcjlEYUxKUTFJWGJkbld2SHlYWFJBYjBLa0x2UzBpVWFNYWU5YzZXRkk5V20zc1EzRThJX01wSDVOMUVrZnJlSk1KczRnR1hzOUxaS1NsYXFZU1ZPTW5SRFF2ZEFIdEVnVU1obWhtV0RhQVZ4WHVDdzlCSHdnVjFnRHlmOE9SM3dDc1Nsc3ZvN29PdGRaenZoSlM4VEVJaU93a3dZbW13Z0xnQnRhbXFlQ1FOOGN2QkE1VUhzX3J1TUdnenJ2YU9paUE5Q2ZlQ3BIeGdNSEFmcy1wY2NLUE5rLUNTV1FGUDZ3SklxbGNPMnVVRkFuTWdaTV9mdXQtVktNaW5QZ09rZDh3OUZhSmNNczl1OVRyaWxkVy1IWVdra3Q5QXpfa1Jkb3lpV2hSM2lqT3BvMFFQMF9UMVp4dUVweWVMZllTemFqSENKd3ExR1Z0cUlBRHFqdk5xeWNyTTkxdnhEM3AycENLRi14NzJub3hYa21xMlNwNHZLY1hfSmY0TzlLMUxKcUVJSVN4Ml8yQVFvZmlBWU0wTVRfX29KZlZSSHk2Z2xuQVozMEhSa0kzTGgxazVzOEpOUllpWV9MTGZfcDRES1hMOW5qa2hxMDNQOUNQTS1OMjlIb2xNODRpUjVFMGlMSTFGZjl2blRCYVZvVC1xUHRDd2hIdXNYMEFRMjBrZTRtZVFzQmJrTnMxa3pBeDZ1QnRsVlByS2dCZmJaMEJFdUI4OS05dTBCUjZESW1TOWc3YUFfMmZhazZ5QlN5ZjFMQTVVbi1IY2MwTEQwaXR2NjQ5ckFWcHN5dXcxNDZKaWJwMEY2czI5VE5Hd202bEozNm9SOW9ubW9kZ3Y5bjZrWVhlTmRxMm8zc3d3ZjRTR0R4UVVlYXVLZ3gzZThiUEJ3SjkyaVc5cUV5WnZRRk0yNGdja1IwUmgwSWNhRUV0bGxudHRTN1RmQ3dnWlB0MlVEdzBSMXVFcUF1em9IWmVZcWVkUjg4UWlydGFia3J3b2pCRk5jYjlWY2F3RFBKTXNKREVzRUcyb2E1bWhyQU91elozU21tMkxyaGhMcTdxX0VnYXB2UXJrQ2YxRU5VbVJnQ0diNDhLQ1Ytd3k2X1ZPazRpS2Y5OXVDMGxkOXQ1S3dsNXlJTHNjb25NREFnRTNSNDZWbU1WWHZ5LU43ZkhaN0ZQb0RVMExPdjBnOW03UFh6cEFTRE5kNmpGcF9oMGMxVGdYX0hELXdfWDUzdE1SaUhQSjNMd1Z2bWdTcWhmNl9PRmprd3RTdENMbm1NZWNCby1CR3dOUnItQUFXaWlzazJSRTQ2Y3dKMVVrYlkzUTFZcl9PYlk2VjVHbDhwcGUxU2JzbEJ2bHNlWW5kaTBXSnJ2SXhhQ3UxOHBsVi11NnF6STI1Y212T1pwM2dqSEgyUGZsWExFMktIVWpXWEpZV3pkMmdxRnc4WTI2QnltT2wtWm9UalFGcDBvYjZfWDlRQnFaRS1wSXl6M2hOVnllM3lhOXRjMkN6WXhsZlNGaTVPb1BHVXYyQ200Z0Q1N0VxWVB6bkVJSlBHZkZqY205TWRJNFd3V0R1XzNqOHhYb09QV3R5YVQtRGpGc3JQbUItNzNLUTlnZXo4VDd6WlJTYXVaVFMtS25MT1BLSkxQSGZfZk4zTGd3NmZBRmdHb2RiaVhvcEhmUlZLVkZ6X2s2b0V1aDN3WW9SenlscnlvRGV1QUVFNFh3YW9idTd2Y1JGS2NxSGNRS2ExVWNMUUlPaXZESXh4ZHcxRXVRcnA5WEpyaFpPVHNWWnhmQTI2YzNWMVFrcllvT1BtOEZDRVl2MDRaM2dKd0xHTjRQMW5uV2h2Z3lPRjhCZjdfbUUyUXNnUkZnSm02blFDdUljUktTVWtTcEdoTllSZU5yYWpZQzJOMjRoX3V2c1dRSEhhazlVbC04TEJaZFZEWE1RNnNFZmszN3RDMGVLS1phVjUyanQ2Y3VRMTdYNk96NmRoWXNJVnY5dTY0MWdpaXdval93ejZITHBPWktzRXQ0WmNOaUQ5ZmFWRmFFMGExTmd4WmtGREpCR3ZGYzU5SkZ6ZHdQT3RCOW82RDdTMENGY3hlSUNRRXM4OG1YTGRGLVhqVjg5SWdNem51MzRvVWhEdWpqUzdlVGJFM2FLX185Zk42UEJTOHQ2VzdfU3FET0o5VmJ0SHl0OFFxMUt3WmZrd1RSMDh2dE9GbkZ6MEVMRm9GamhvZFVOa2Z3RThiY1dhZ2hPbDhva0w0QjlBWnN3NF9OaUUwelZobkxBVHhKX3NWT0dOMmpXOEZVUVRJUlZtOW9xT2RSZU1pd0xXV2ZfTjdSRWFVaUpJTC04QTVhLUlQcFJWbHBXR1FQVmc2YTN4SHNpTVFwOUhzV1BRbF9zYjFHQzFMeGNjaGJ6cl96M3ZueU5wc3VXUXVVUXhFTlpKVGdReGdJNFRxdHdCNEZfUE41YWdxbEFXOWN5bGJScEI1d3JpVEF0U3R6OXJJaElJR0p3M2MyTlI3MmdvcmlFQUZEeGdrMW92UWtIbVpESHRXc3pPdDZZQ25MVEpiS0RoXzREbVpLRlliUk9EVGFDQWxtU1doY1FXa2dIT18zc2VtdWE1dmhLUHBTS19tMTJaRld5Tnpsb2ZGNFA4a2FMLXlrSzBkZ0xaRVpGQ1YwUVlNRnc1VnJNeFlkVk5OVHlmVmlNTGVLYUhQRlNJejUtVGdpUkxGX2Y3SmVUX25KaVd0TDd5dTZTc0xVei01QjNTOVA0T1A5OVZIelBCTllyMGRTV0NEYmVfdFZOM0tJanA2enNEakxydWgyblZFb2lKWnhHbVQ0MW9UQmZyb2VwYkxpd09ZU2V2WjBTWVgtS3pOYjFpdm1vY1UzNzE1Z2JaVnNrSjlpVFcwTEh4NE1Ld3BIS0VLTHRLN09HclQwV2RhNHpXWWVVc1Ixa0RSZjk2V0JoT0NTM193T01MdGxTRUxPRlNSZlhtd3FJa0I3V0t5Q1lod2xHV3IzMkZ0b1VtMXJQX0VXbFliSGh3Z3lDd2wyb1d5X3pEOXRwQk1YMD0=)
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    cache:
+      cache_paths: []
+    triggering:
+      events:
+        - push
+        - pull_request
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
+    scripts:
+      - |
+        # set up debug keystore
+        rm -f ~/.android/debug.keystore
+        keytool -genkeypair \
+          -alias androiddebugkey \
+          -keypass android \
+          -keystore ~/.android/debug.keystore \
+          -storepass android \
+          -dname 'CN=Android Debug,O=Android,C=US' \
+          -keyalg 'RSA' \
+          -keysize 2048 \
+          -validity 10000
+      - |
+        # set up local properties
+        echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
+      - cd . && flutter packages pub get
+      - cd . && flutter build apk --debug
+      - find . -name "Podfile" -execdir pod install \;
+      - cd . && flutter build ios --debug --no-codesign
+      - |
+        # FCI_BUILD_DIR is a predefined environment variable pointing to the root of the Flutter project
+        cd $FCI_BUILD_DIR
+
+        # Go to the android folder which contains the "gradlew" script used
+        # for building Android apps from the terminal
+        pushd android
+        # Build an Android test APK (that's why we've created the MainActivityTest.java)
+        ./gradlew app:assembleAndroidTest
+        # Build a debug APK, passing in the integration test file
+        ./gradlew app:assembleDebug -Ptarget="$FCI_BUILD_DIR/integration_test/app_test.dart"
+        # Go back to the root of the project
+        popd
+
+        # Write the environment variable in base64 into a JSON file
+        echo $GCLOUD_KEY_FILE | base64 --decode > ./gcloud_key_file.json
+
+        # Using the gcloud CLI (preinstalled on Codemagic) authenticate using the service account key
+        gcloud auth activate-service-account --key-file=gcloud_key_file.json
+
+        # Select YOUR Firebase project through which want to run the tests
+        gcloud --quiet config set project mathfast-12e5a
+
+        # Run the Flutter integration tests as if they were regular Android instrumentation tests
+        gcloud firebase test android run \
+          --type instrumentation \
+          --app build/app/outputs/apk/debug/app-debug.apk \
+          --test build/app/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+          --timeout 2m
+    artifacts:
+      - build/**/outputs/**/*.apk
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - opeoluwa.iyikuyoro@gmail.com
