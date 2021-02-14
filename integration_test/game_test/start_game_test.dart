@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:math_fast/main.dart';
+import 'package:math_fast/ui/components/actions/button.dart';
 import 'package:math_fast/ui/components/inputs/option_selector.dart';
 import 'package:math_fast/ui/components/inputs/text_field.dart';
 
@@ -53,7 +54,8 @@ main() {
     );
 
     testWidgets(
-      'modify game settings and error on incorrect settings',
+      'modify game settings and error on incorrect settings'
+      'game should not be startable if error',
       (WidgetTester tester) async {
         await tester.pumpWidget(MathFastApp());
 
@@ -75,6 +77,10 @@ main() {
           find.text('Value must be greater than or equal to 10'),
           findsOneWidget,
         );
+
+        await tester.tap(find.byType(Button).hitTestable());
+        await tester.pumpAndSettle();
+        expect(find.byType(Button).hitTestable(), findsOneWidget);
       },
     );
 
