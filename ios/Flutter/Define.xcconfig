@@ -1,3 +1,0 @@
-DEFINE_ENV=prod
-DEFINE_APP_SUFFIX=.production
-DEFINE_APP_NAME=MathFast
