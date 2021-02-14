@@ -26,7 +26,6 @@ class GameStartPage extends StatelessWidget {
       onChanged: (String duration) {
         if (_formKey.currentState.saveAndValidate()) {
           ChangeGameDuration changeGameDurationEvent = ChangeGameDuration(
-            game: game,
             newDuration: int.parse(duration),
             errorKey: errorKey,
           );
@@ -52,7 +51,6 @@ class GameStartPage extends StatelessWidget {
       onChanged: (GameDifficulty difficulty) {
         context.read<GameBloc>().add(
               ChangeGameDifficulty(
-                game: game,
                 newDifficulty: difficulty,
                 errorKey: errorKey,
               ),

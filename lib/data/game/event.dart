@@ -11,44 +11,40 @@ abstract class GameEvent extends Event {
 /// Start game event
 @immutable
 class StartGameEvent extends GameEvent {
-  StartGameEvent({@required errorKey}) : super(errorKey: errorKey);
+  StartGameEvent({@required Key errorKey}) : super(errorKey: errorKey);
 }
 
 /// Stop game event
 @immutable
 class StopGameEvent extends GameEvent {
-  StopGameEvent({@required errorKey}) : super(errorKey: errorKey);
+  StopGameEvent({@required Key errorKey}) : super(errorKey: errorKey);
 }
 
 /// Pause game event
 @immutable
 class PauseGameEvent extends GameEvent {
-  PauseGameEvent({@required errorKey}) : super(errorKey: errorKey);
+  PauseGameEvent({@required Key errorKey}) : super(errorKey: errorKey);
 }
 
 /// Modify game duration
 @immutable
 class ChangeGameDuration extends GameEvent {
-  final Game game;
   final int newDuration;
 
   ChangeGameDuration({
-    @required this.game,
     @required this.newDuration,
-    @required errorKey,
+    @required Key errorKey,
   }) : super(errorKey: errorKey);
 }
 
 /// Modify game difficulty
 @immutable
 class ChangeGameDifficulty extends GameEvent {
-  final Game game;
   final GameDifficulty newDifficulty;
 
   ChangeGameDifficulty({
-    @required this.game,
     @required this.newDifficulty,
-    @required errorKey,
+    @required Key errorKey,
   }) : super(errorKey: errorKey);
 }
 

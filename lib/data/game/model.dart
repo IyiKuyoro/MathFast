@@ -33,6 +33,8 @@ class GameSettings {
     _duration = value;
   }
 
+  /// Ensure game duration is greater than or equal to 10
+  /// and less than or equal to 120
   static void _checkDuration(int duration) {
     if (duration < 10 || duration > 120) {
       throw GameSettingsException(
@@ -80,6 +82,15 @@ class Game extends Model {
   /// Get game setting
   GameSettings get gameSettings => _gameSettings;
 
+  /// Checks if the game has ended or started
+  bool get _canEditGame {
+    if (!canChangeState) throw EndedGameException(game: this);
+    if (_gameState == GameState.started)
+      throw GameAlreadyStartedException(game: this);
+
+    return true;
+  }
+
   /// Pause a started game
   bool pauseGame() {
     if (!canPause) return false;
@@ -90,9 +101,7 @@ class Game extends Model {
 
   /// Change difficulty
   GameSettings changeDifficuty(GameDifficulty newDifficulty) {
-    if (!canChangeState) throw EndedGameException(game: this);
-    if (_gameState == GameState.started)
-      throw GameAlreadyStartedException(game: this);
+    _canEditGame;
 
     _gameSettings.difficulty = newDifficulty;
     return _gameSettings;
@@ -100,11 +109,23 @@ class Game extends Model {
 
   /// Change duration
   GameSettings changeDuration(int newDuration) {
-    if (!canChangeState) throw EndedGameException(game: this);
-    if (_gameState == GameState.started)
-      throw GameAlreadyStartedException(game: this);
+    _canEditGame;
 
     _gameSettings.duration = newDuration;
     return _gameSettings;
+  }
+
+  /// Changes game state to start
+  GameState startGame() {
+    _canEditGame;
+
+    return gameState = GameState.started;
+  }
+
+  /// End the game if not already ended
+  GameState endGame() {
+    if (gameState == GameState.ended) throw EndedGameException(game: this);
+
+    return gameState = GameState.ended;
   }
 }

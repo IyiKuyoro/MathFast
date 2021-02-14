@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Model {
-  Map<Key, String> errorMap;
+  Map<Key, dynamic> errorMap;
 
   Model() : errorMap = {};
 

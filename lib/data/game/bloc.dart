@@ -17,33 +17,33 @@ class GameBloc extends Bloc<GameEvent, Game> with BlocMixin<GameEvent, Game> {
       state.clearError(event.errorKey);
       switch (event.runtimeType) {
         case StartGameEvent:
-          state.gameState = GameState.started;
+          state.startGame();
+          yield state;
           break;
         case StopGameEvent:
-          state.gameState = GameState.ended;
+          state.endGame();
+          yield state;
           break;
         case PauseGameEvent:
           state.pauseGame();
+          yield state;
           break;
         case ChangeGameDuration:
           ChangeGameDuration changeGameDurationEvent =
               event as ChangeGameDuration;
           state.changeDuration(changeGameDurationEvent.newDuration);
+          yield state;
           break;
         case ChangeGameDifficulty:
           ChangeGameDifficulty changeGameDifficultyEvent =
               event as ChangeGameDifficulty;
           state.changeDifficuty(changeGameDifficultyEvent.newDifficulty);
+          yield state;
           break;
         default:
       }
-    } on EndedGameException catch (_) {
-      // TODO: Handle error with notification to screen
-    } on GameAlreadyStartedException catch (_) {
-      // TODO: Handle error with notification to screen
-    } on GameSettingsException catch (error) {
+    } on GameException catch (error) {
       state.addError(event.errorKey, error.message);
-    } finally {
       yield state;
     }
   }
@@ -57,21 +57,19 @@ class GamesBloc extends Bloc<GamesEvent, HashMap<String, Game>>
   /// Handles GamesEvent to modify the Games state
   @override
   Stream<HashMap<String, Game>> mapEventToState(GamesEvent event) async* {
-    try {
-      switch (event.runtimeType) {
-        case CreateGameEvent:
-          CreateGameEvent createGameEvent = event as CreateGameEvent;
-          state[createGameEvent.game.gameCode] = createGameEvent.game;
-          break;
-        case DeleteGameEvent:
-          DeleteGameEvent removeGameEvent = event as DeleteGameEvent;
-          Game gameToBeRemoved = removeGameEvent.game;
-          state.remove(gameToBeRemoved.gameCode);
-          break;
-        default:
-      }
-    } finally {
-      yield state;
+    switch (event.runtimeType) {
+      case CreateGameEvent:
+        CreateGameEvent createGameEvent = event as CreateGameEvent;
+        state[createGameEvent.game.gameCode] = createGameEvent.game;
+        yield state;
+        break;
+      case DeleteGameEvent:
+        DeleteGameEvent removeGameEvent = event as DeleteGameEvent;
+        Game gameToBeRemoved = removeGameEvent.game;
+        state.remove(gameToBeRemoved.gameCode);
+        yield state;
+        break;
+      default:
     }
   }
 }

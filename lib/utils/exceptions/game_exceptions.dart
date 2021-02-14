@@ -12,22 +12,13 @@ abstract class GameException implements Exception {
   });
 }
 
-/// Used to signify that a requested game does not exist
-class GameDoesNotExist extends GameException {
-  GameDoesNotExist()
-      : super(
-          game: null,
-          message: 'Game does not exisit',
-        );
-}
-
 /// Used to signify that a game has ended and cannot be futher modified.
 class EndedGameException extends GameException {
   /// Creates an ended game exception.
   EndedGameException({@required Game game})
       : super(
           game: game,
-          message: 'Game with code ${game.gameCode} has ended',
+          message: 'Game with code ${game.gameCode} has ended.',
         );
 }
 
@@ -43,9 +34,13 @@ class GameAlreadyStartedException extends GameException {
 }
 
 /// Used to signify a game settings exception
-class GameSettingsException implements Exception {
+class GameSettingsException extends GameException {
   final String message;
 
   /// Creates a game settings exception
-  GameSettingsException({@required this.message});
+  GameSettingsException({@required Game game, @required this.message})
+      : super(
+          game: game,
+          message: message,
+        );
 }
