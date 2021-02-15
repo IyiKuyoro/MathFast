@@ -31,3 +31,12 @@ String genCode({String prefix}) {
 
   return '$prefix$code'.toUpperCase();
 }
+
+/// Converts seconds to mins
+String convertSecsToMin(int seconds) {
+  if (seconds < 0) return '0:00';
+  String mins = (seconds / 60).floor().toString();
+  int remainder = seconds % 60;
+
+  return '$mins:${remainder < 10 ? 0 : ''}$remainder';
+}

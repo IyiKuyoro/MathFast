@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:math_fast/data/model.dart';
 import 'package:math_fast/utils/exceptions/game_exceptions.dart';
 import 'package:math_fast/utils/helper_functions.dart';
@@ -50,6 +52,10 @@ class Game extends Model {
   GameState _gameState;
   bool _isPaused;
   GameSettings _gameSettings;
+  int _remainingTime = 0;
+  StreamController<int> _remainingTimeStreamController =
+      StreamController<int>();
+  Timer _timer;
 
   /// Create a new game instance in a not started state
   Game.newGame()
@@ -82,8 +88,12 @@ class Game extends Model {
   /// Get game setting
   GameSettings get gameSettings => _gameSettings;
 
+  int get durationLeft => _remainingTime;
+
+  Stream<int> get durationLeftStream => _remainingTimeStreamController.stream;
+
   /// Checks if the game has ended or started
-  bool get _canEditGame {
+  bool _canEditGame() {
     if (!canChangeState) throw EndedGameException(game: this);
     if (_gameState == GameState.started)
       throw GameAlreadyStartedException(game: this);
@@ -101,7 +111,7 @@ class Game extends Model {
 
   /// Change difficulty
   GameSettings changeDifficuty(GameDifficulty newDifficulty) {
-    _canEditGame;
+    _canEditGame();
 
     _gameSettings.difficulty = newDifficulty;
     return _gameSettings;
@@ -109,7 +119,7 @@ class Game extends Model {
 
   /// Change duration
   GameSettings changeDuration(int newDuration) {
-    _canEditGame;
+    _canEditGame();
 
     _gameSettings.duration = newDuration;
     return _gameSettings;
@@ -117,14 +127,26 @@ class Game extends Model {
 
   /// Changes game state to start
   GameState startGame() {
-    _canEditGame;
+    _canEditGame();
 
-    return gameState = GameState.started;
+    _remainingTime = gameSettings.duration;
+    gameState = GameState.started;
+    _timer = Timer.periodic(
+      Duration(seconds: 1),
+      (Timer _) {
+        if (_remainingTime <= 0) endGame();
+        _remainingTime -= 1;
+        _remainingTimeStreamController.sink.add(_remainingTime);
+      },
+    );
+    return gameState;
   }
 
   /// End the game if not already ended
   GameState endGame() {
     if (gameState == GameState.ended) throw EndedGameException(game: this);
+    if (_timer.isActive) _timer.cancel();
+    _remainingTimeStreamController.close();
 
     return gameState = GameState.ended;
   }
