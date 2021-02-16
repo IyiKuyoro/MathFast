@@ -31,17 +31,6 @@ main() {
 
         expect(gameSettings.duration, 20);
       });
-
-      test('should error if game duration is outside boundary', () {
-        GameSettings gameSettings = GameSettings(GameDifficulty.easy, 10);
-
-        expect(
-          () {
-            gameSettings.duration = 9;
-          },
-          throwsA(isA<GameSettingsException>()),
-        );
-      });
     });
   });
 
@@ -60,56 +49,42 @@ main() {
     group('gameState', () {
       test('should set game state', () {
         Game game = Game.newGame();
-
-        game.gameState = GameState.started;
+        game = game.startGame();
 
         expect(game.gameState, GameState.started);
       });
 
       test('should error if trying to change state of an ended game', () {
-        Game game = Game.newGame();
-
-        game.gameState = GameState.ended;
+        Game game = Game(gameState: GameState.ended);
 
         expect(
           () {
-            game.gameState = GameState.started;
+            game.endGame();
           },
           throwsA(isA<EndedGameException>()),
-        );
-      });
-
-      test('should error if trying to revert a started game', () {
-        Game game = Game.newGame();
-
-        game.gameState = GameState.started;
-
-        expect(
-          () {
-            game.gameState = GameState.notStarted;
-          },
-          throwsA(isA<GameAlreadyStartedException>()),
         );
       });
     });
 
     group('pauseGame()', () {
       test('should be able to pause a started game', () {
-        Game game = Game.newGame();
+        Game game = Game(gameState: GameState.started);
 
-        game.gameState = GameState.started;
-        game.pauseGame();
+        game = game.toggleGamePause();
 
         expect(game.isPaused, true);
       });
 
       test('should not be able to pause game that is not in a started state',
           () {
-        Game game = Game.newGame();
+        Game game = Game(gameState: GameState.ended);
 
-        game.pauseGame();
-
-        expect(game.isPaused, false);
+        expect(
+          () {
+            game.toggleGamePause();
+          },
+          throwsA(isA<GameException>()),
+        );
       });
     });
 
@@ -117,15 +92,13 @@ main() {
       test('should change difficulty', () {
         Game game = Game.newGame();
 
-        game.changeDifficuty(GameDifficulty.hard);
+        game = game.changeDifficuty(GameDifficulty.hard);
 
         expect(game.gameSettings.difficulty, GameDifficulty.hard);
       });
 
       test('should error if game has ended', () {
-        Game game = Game.newGame();
-
-        game.gameState = GameState.ended;
+        Game game = Game(gameState: GameState.ended);
 
         expect(
           () {
@@ -136,9 +109,7 @@ main() {
       });
 
       test('should error if game has started', () {
-        Game game = Game.newGame();
-
-        game.gameState = GameState.started;
+        Game game = Game(gameState: GameState.started);
 
         expect(
           () {
@@ -153,15 +124,13 @@ main() {
       test('should change duration', () {
         Game game = Game.newGame();
 
-        game.changeDuration(20);
+        game = game.changeDuration(20);
 
         expect(game.gameSettings.duration, 20);
       });
 
       test('should error if game has ended', () {
-        Game game = Game.newGame();
-
-        game.gameState = GameState.ended;
+        Game game = Game(gameState: GameState.ended);
 
         expect(
           () {
@@ -172,9 +141,7 @@ main() {
       });
 
       test('should error if game has started', () {
-        Game game = Game.newGame();
-
-        game.gameState = GameState.started;
+        Game game = Game(gameState: GameState.started);
 
         expect(
           () {

@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:math_fast/data/game/bloc.dart';
@@ -21,8 +19,7 @@ Widget testWidgetPageWrapper(
       child: MultiBlocProvider(
         providers: [
           BlocProvider<GamesBloc>(
-            create: (BuildContext context) =>
-                gamesBloc ?? GamesBloc(HashMap<String, Game>()),
+            create: (BuildContext context) => gamesBloc ?? GamesBloc(Games()),
           )
         ],
         child: MaterialApp(home: child),

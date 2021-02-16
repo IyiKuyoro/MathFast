@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:bloc/bloc.dart';
 import 'package:math_fast/data/bloc_mixin.dart';
 import 'package:math_fast/data/game/event.dart';
@@ -14,63 +12,56 @@ class GameBloc extends Bloc<GameEvent, Game> with BlocMixin<GameEvent, Game> {
   @override
   Stream<Game> mapEventToState(GameEvent event) async* {
     try {
-      state.clearError(event.errorKey);
+      if (state.errorMap.containsKey(event.errorKey)) {
+        yield state.removeError(event.errorKey);
+      }
       switch (event.runtimeType) {
         case StartGameEvent:
-          state.startGame();
-          yield state;
+          yield state.startGame();
           break;
         case StopGameEvent:
-          state.endGame();
-          yield state;
+          yield state.endGame();
           break;
         case PauseGameEvent:
-          state.pauseGame();
-          yield state;
+          yield state.toggleGamePause();
           break;
         case ChangeGameDuration:
           ChangeGameDuration changeGameDurationEvent =
               event as ChangeGameDuration;
-          state.changeDuration(changeGameDurationEvent.newDuration);
-          yield state;
+          yield state.changeDuration(changeGameDurationEvent.newDuration);
           break;
         case ChangeGameDifficulty:
           ChangeGameDifficulty changeGameDifficultyEvent =
               event as ChangeGameDifficulty;
-          state.changeDifficuty(changeGameDifficultyEvent.newDifficulty);
-          yield state;
+          yield state.changeDifficuty(changeGameDifficultyEvent.newDifficulty);
           break;
         default:
       }
     } on GameException catch (error) {
-      state.addError(event.errorKey, error.message);
-      yield state;
+      yield state.addError(event.errorKey, error.message);
     } on GameSettingsException catch (error) {
-      state.addError(event.errorKey, error.message);
-      yield state;
+      yield state.addError(event.errorKey, error.message);
     }
   }
 }
 
-class GamesBloc extends Bloc<GamesEvent, HashMap<String, Game>>
-    with BlocMixin<GamesEvent, HashMap<String, Game>> {
+class GamesBloc extends Bloc<GamesEvent, Games>
+    with BlocMixin<GamesEvent, Games> {
   /// Creates the games state from exhisiting games has map
-  GamesBloc(HashMap<String, Game> initialState) : super(initialState);
+  GamesBloc(Games initialState) : super(initialState);
 
   /// Handles GamesEvent to modify the Games state
   @override
-  Stream<HashMap<String, Game>> mapEventToState(GamesEvent event) async* {
+  Stream<Games> mapEventToState(GamesEvent event) async* {
     switch (event.runtimeType) {
       case CreateGameEvent:
         CreateGameEvent createGameEvent = event as CreateGameEvent;
-        state[createGameEvent.game.gameCode] = createGameEvent.game;
-        yield state;
+        yield state.upsertGame(createGameEvent.game);
         break;
       case DeleteGameEvent:
         DeleteGameEvent removeGameEvent = event as DeleteGameEvent;
         Game gameToBeRemoved = removeGameEvent.game;
-        state.remove(gameToBeRemoved.gameCode);
-        yield state;
+        yield state.removeGame(gameToBeRemoved.gameCode);
         break;
       default:
     }

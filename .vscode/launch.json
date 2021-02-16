@@ -7,10 +7,11 @@
             "type": "dart",
             "program": "lib/main.dart",
             "env": {
-                "RELEASE_MODE": true
+                "RELEASE_MODE": false
             },
             "args": [
                 "--dart-define", "DEFINE_ENV=dev",
+                "--dart-define", "DEFINE_APP_NAME=MathFast-D",
             ],
             "console": "debugConsole",
             "flutterMode": "debug",
