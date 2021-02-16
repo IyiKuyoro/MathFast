@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:math_fast/data/game/model.dart';
-import 'package:math_fast/ui/pages/game/game_start_page.dart';
 import 'package:math_fast/utils/exceptions/game_exceptions.dart';
 
 main() {
