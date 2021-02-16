@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 
-class Model {
-  Map<Key, dynamic> errorMap;
+@immutable
+abstract class Model<T> {
+  final Map<Key, dynamic> errorMap;
 
-  Model() : errorMap = {};
+  Model({Map<Key, dynamic> errorMap}) : this.errorMap = errorMap ?? {};
 
-  /// Clear error
-  void clearError(Key errorKey) {
-    errorMap.remove(errorKey);
+  T copyWith({Map<Key, dynamic> errorMap});
+
+  T addError(Key errorKey, String error) {
+    Map<Key, dynamic> modifiedErrorMap = {...errorMap};
+    modifiedErrorMap[errorKey] = error;
+
+    return copyWith(errorMap: modifiedErrorMap);
   }
 
-  /// Add error
-  void addError(Key errorKey, String error) {
-    errorMap[errorKey] = error;
+  T removeError(Key errorKey) {
+    Map<Key, dynamic> modifiedErrorMap = {...errorMap};
+    modifiedErrorMap.remove(errorKey);
+
+    return copyWith(errorMap: modifiedErrorMap);
   }
 
   /// Get error message

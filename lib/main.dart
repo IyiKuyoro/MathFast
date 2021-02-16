@@ -1,8 +1,7 @@
-import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:math_fast/data/game/bloc.dart';
+import 'package:math_fast/data/game/model.dart';
 import 'package:math_fast/router/route.dart';
 
 void main() {
@@ -16,7 +15,7 @@ class MathFastApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<GamesBloc>(
-          create: (BuildContext context) => GamesBloc(HashMap()),
+          create: (BuildContext context) => GamesBloc(Games()),
         )
       ],
       child: MaterialApp(

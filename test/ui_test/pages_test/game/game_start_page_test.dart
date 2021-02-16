@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:math_fast/data/game/bloc.dart';
 import 'package:math_fast/data/game/model.dart';
@@ -11,8 +9,9 @@ main() {
   group('GameStartPage', () {
     testWidgets('should render form', (WidgetTester tester) async {
       Game game = Game.newGame();
-      HashMap<String, Game> gamesMap = HashMap<String, Game>();
-      gamesMap[game.gameCode] = game;
+      Games gamesMap = Games(gamesMap: {
+        game.gameCode: game,
+      });
 
       GameStartPage gameStartPage = GameStartPage(gameCode: game.gameCode);
 

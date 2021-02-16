@@ -19,7 +19,7 @@ class GameProvider extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) {
-        Game game = context.read<GamesBloc>().state[gameCode];
+        Game game = context.read<GamesBloc>().state.getGame(gameCode);
         return GameBloc(game);
       },
       child: child,

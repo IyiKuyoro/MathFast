@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:math_fast/data/game/model.dart';
 
-abstract class GameException implements Exception {
+class GameException implements Exception {
   final Game game;
   final String message;
 

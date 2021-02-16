@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:flutter/material.dart';
 import 'package:math_fast/data/model.dart';
 import 'package:math_fast/utils/exceptions/game_exceptions.dart';
 import 'package:math_fast/utils/helper_functions.dart';
@@ -18,21 +17,12 @@ enum GameDifficulty {
 
 class GameSettings {
   GameDifficulty difficulty;
-  int _duration;
+  int duration;
 
   /// Create new game settings
-  GameSettings(this.difficulty, duration) {
+  GameSettings(this.difficulty, int duration) {
     _checkDuration(duration);
-    _duration = duration;
-  }
-
-  /// Returns the game duration
-  int get duration => _duration;
-
-  /// Adjust the game duration
-  set duration(int value) {
-    _checkDuration(value);
-    _duration = value;
+    this.duration = duration;
   }
 
   /// Ensure game duration is greater than or equal to 10
@@ -47,107 +37,148 @@ class GameSettings {
   }
 }
 
-class Game extends Model {
-  String gameCode;
-  GameState _gameState;
-  bool _isPaused;
-  GameSettings _gameSettings;
-  int _remainingTime = 0;
-  StreamController<int> _remainingTimeStreamController =
-      StreamController<int>();
-  Timer _timer;
+@immutable
+class Game extends Model<Game> {
+  final String gameCode;
+  final GameState gameState;
+  final bool isPaused;
+  final GameSettings gameSettings;
+
+  /// Create a game by passing parameters of the game
+  Game({
+    String gameCode,
+    GameSettings gameSettings,
+    this.gameState: GameState.notStarted,
+    this.isPaused: false,
+    Map<Key, dynamic> errorMap,
+  })  : this.gameCode = gameCode ?? genCode(prefix: 'GAM'),
+        this.gameSettings =
+            gameSettings ?? GameSettings(GameDifficulty.easy, 30),
+        super(errorMap: errorMap ?? {});
 
   /// Create a new game instance in a not started state
   Game.newGame()
-      : _gameState = GameState.notStarted,
-        _isPaused = false,
-        _gameSettings = GameSettings(GameDifficulty.easy, 30),
-        gameCode = genCode(prefix: 'GAM');
-
-  /// Returns the current game state
-  GameState get gameState => _gameState;
-
-  /// Set the game state
-  set gameState(GameState value) {
-    if (!canChangeState) throw EndedGameException(game: this);
-    if (_gameState == GameState.started && value == GameState.notStarted)
-      throw GameAlreadyStartedException(game: this);
-
-    _gameState = value;
-  }
-
-  /// Return paused game state
-  bool get isPaused => _isPaused;
+      : gameState = GameState.notStarted,
+        isPaused = false,
+        gameSettings = GameSettings(GameDifficulty.easy, 30),
+        gameCode = genCode(prefix: 'GAM'),
+        super();
 
   /// Can the current game be paused of not
-  bool get canPause => _gameState == GameState.started;
+  bool get canPause => gameState == GameState.started;
 
-  /// Can the current game state be changed
-  bool get canChangeState => _gameState != GameState.ended;
+  /// Is the game in an ended state
+  bool get hasEnded => gameState == GameState.ended;
 
-  /// Get game setting
-  GameSettings get gameSettings => _gameSettings;
+  /// Is the game in a started state
+  bool get hasStarted => gameState == GameState.started;
 
-  int get durationLeft => _remainingTime;
-
-  Stream<int> get durationLeftStream => _remainingTimeStreamController.stream;
-
-  /// Checks if the game has ended or started
-  bool _canEditGame() {
-    if (!canChangeState) throw EndedGameException(game: this);
-    if (_gameState == GameState.started)
-      throw GameAlreadyStartedException(game: this);
-
-    return true;
-  }
+  /// Can the game be ended
+  bool get canEndGame => gameState != GameState.ended;
 
   /// Pause a started game
-  bool pauseGame() {
-    if (!canPause) return false;
+  Game toggleGamePause() {
+    if (!canPause)
+      throw GameException(
+        game: this,
+        message: 'Cannot pause a game that is not in the started state.',
+      );
 
-    _isPaused = true;
-    return _isPaused;
+    return copyWith(isPaused: !isPaused);
   }
 
   /// Change difficulty
-  GameSettings changeDifficuty(GameDifficulty newDifficulty) {
-    _canEditGame();
+  Game changeDifficuty(GameDifficulty newDifficulty) {
+    if (hasEnded) throw EndedGameException(game: this);
+    if (hasStarted) throw GameAlreadyStartedException(game: this);
 
-    _gameSettings.difficulty = newDifficulty;
-    return _gameSettings;
+    return copyWith(
+      gameSettings: GameSettings(
+        newDifficulty,
+        gameSettings.duration,
+      ),
+    );
   }
 
   /// Change duration
-  GameSettings changeDuration(int newDuration) {
-    _canEditGame();
+  Game changeDuration(int newDuration) {
+    if (hasEnded) throw EndedGameException(game: this);
+    if (hasStarted) throw GameAlreadyStartedException(game: this);
 
-    _gameSettings.duration = newDuration;
-    return _gameSettings;
+    return copyWith(
+      gameSettings: GameSettings(
+        gameSettings.difficulty,
+        newDuration,
+      ),
+    );
   }
 
   /// Changes game state to start
-  GameState startGame() {
-    _canEditGame();
+  Game startGame() {
+    if (hasEnded) throw EndedGameException(game: this);
+    if (hasStarted) throw GameAlreadyStartedException(game: this);
 
-    _remainingTime = gameSettings.duration;
-    gameState = GameState.started;
-    _timer = Timer.periodic(
-      Duration(seconds: 1),
-      (Timer _) {
-        if (_remainingTime <= 0) endGame();
-        _remainingTime -= 1;
-        _remainingTimeStreamController.sink.add(_remainingTime);
-      },
-    );
-    return gameState;
+    return copyWith(gameState: GameState.started);
   }
 
   /// End the game if not already ended
-  GameState endGame() {
-    if (gameState == GameState.ended) throw EndedGameException(game: this);
-    if (_timer.isActive) _timer.cancel();
-    _remainingTimeStreamController.close();
+  Game endGame() {
+    if (canEndGame) {
+      return copyWith(gameState: GameState.ended);
+    }
 
-    return gameState = GameState.ended;
+    throw EndedGameException(game: this);
+  }
+
+  Game copyWith({
+    GameState gameState,
+    bool isPaused,
+    GameSettings gameSettings,
+    Map<Key, dynamic> errorMap,
+  }) =>
+      Game(
+        gameCode: this.gameCode,
+        gameState: gameState ?? this.gameState,
+        isPaused: isPaused ?? this.isPaused,
+        gameSettings: gameSettings ?? this.gameSettings,
+        errorMap: errorMap ?? this.errorMap,
+      );
+}
+
+@immutable
+class Games extends Model<Games> {
+  final Map<String, Game> gamesMap;
+
+  Games({
+    this.gamesMap: const {},
+    Map<Key, dynamic> errorMap,
+  }) : super(errorMap: errorMap ?? {});
+
+  @override
+  Games copyWith({
+    Map<Key, dynamic> errorMap,
+    Map<String, Game> gamesMap,
+  }) =>
+      Games(
+        gamesMap: gamesMap ?? this.gamesMap,
+        errorMap: errorMap ?? this.errorMap,
+      );
+
+  Games upsertGame(Game game) {
+    Map<String, Game> modifiedGamesMap = {...gamesMap};
+    modifiedGamesMap[game.gameCode] = game;
+
+    return copyWith(gamesMap: modifiedGamesMap);
+  }
+
+  Games removeGame(String gameCode) {
+    Map<String, Game> modifiedGamesMap = {...gamesMap};
+    modifiedGamesMap.remove(gameCode);
+
+    return copyWith(gamesMap: modifiedGamesMap);
+  }
+
+  Game getGame(String gameCode) {
+    return gamesMap[gameCode];
   }
 }

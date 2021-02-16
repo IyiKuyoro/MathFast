@@ -1,5 +1,3 @@
-import 'dart:collection';
-
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -12,9 +10,7 @@ main() {
     group('StartGameEvent', () {
       blocTest(
         'should change game state to started',
-        build: () => GameBloc(
-          Game.newGame(),
-        ),
+        build: () => GameBloc(Game.newGame()),
         act: (GameBloc gameBloc) => gameBloc.add(
           StartGameEvent(
             errorKey: Key('test-error-key'),
@@ -29,10 +25,9 @@ main() {
       );
 
       blocTest(
-        'should error if game has ended',
+        'should error if game has already started',
         build: () {
-          Game game = Game.newGame();
-          game.startGame();
+          Game game = Game(gameState: GameState.started);
 
           return GameBloc(game);
         },
@@ -53,13 +48,8 @@ main() {
       );
 
       blocTest(
-        'should error if game has already started',
-        build: () {
-          Game game = Game.newGame();
-          game.endGame();
-
-          return GameBloc(game);
-        },
+        'should error if game has ended',
+        build: () => GameBloc(Game(gameState: GameState.ended)),
         act: (GameBloc gameBloc) => gameBloc.add(
           StartGameEvent(
             errorKey: Key('test-error-key'),
@@ -80,9 +70,7 @@ main() {
     group('StopGameEvent', () {
       blocTest(
         'should change game state to ended',
-        build: () => GameBloc(
-          Game.newGame(),
-        ),
+        build: () => GameBloc(Game(gameState: GameState.ended)),
         act: (GameBloc gameBloc) => gameBloc.add(
           StopGameEvent(
             errorKey: Key('test-error-key'),
@@ -98,12 +86,7 @@ main() {
 
       blocTest(
         'should error if game has already ended',
-        build: () {
-          Game game = Game.newGame();
-          game.endGame();
-
-          return GameBloc(game);
-        },
+        build: () => GameBloc(Game(gameState: GameState.ended)),
         act: (GameBloc gameBloc) => gameBloc.add(
           StopGameEvent(
             errorKey: Key('test-error-key'),
@@ -124,11 +107,7 @@ main() {
     group('PauseGameEvent', () {
       blocTest(
         'should pause the game',
-        build: () {
-          Game game = Game.newGame();
-          game.startGame();
-          return GameBloc(game);
-        },
+        build: () => GameBloc(Game(gameState: GameState.started)),
         act: (GameBloc gameBloc) => gameBloc.add(
           PauseGameEvent(
             errorKey: Key('test-error-key'),
@@ -158,8 +137,8 @@ main() {
           Game game = gameBloc.state;
 
           expect(
-            game.isPaused,
-            false,
+            game.errorMap[Key('test-error-key')],
+            'Cannot pause a game that is not in the started state.',
           );
         },
       );
@@ -187,11 +166,7 @@ main() {
 
       blocTest(
         'should error if game has ended',
-        build: () {
-          Game game = Game.newGame();
-          game.endGame();
-          return GameBloc(game);
-        },
+        build: () => GameBloc(Game(gameState: GameState.ended)),
         act: (GameBloc gameBloc) => gameBloc.add(
           ChangeGameDuration(
             newDuration: 100,
@@ -211,11 +186,7 @@ main() {
 
       blocTest(
         'should error if game has started',
-        build: () {
-          Game game = Game.newGame();
-          game.startGame();
-          return GameBloc(game);
-        },
+        build: () => GameBloc(Game(gameState: GameState.started)),
         act: (GameBloc gameBloc) => gameBloc.add(
           ChangeGameDuration(
             newDuration: 100,
@@ -278,11 +249,7 @@ main() {
 
       blocTest(
         'should error if game has ended',
-        build: () {
-          Game game = Game.newGame();
-          game.endGame();
-          return GameBloc(game);
-        },
+        build: () => GameBloc(Game(gameState: GameState.ended)),
         act: (GameBloc gameBloc) => gameBloc.add(
           ChangeGameDifficulty(
             newDifficulty: GameDifficulty.hard,
@@ -303,8 +270,7 @@ main() {
       blocTest(
         'should error if game has started',
         build: () {
-          Game game = Game.newGame();
-          game.startGame();
+          Game game = Game(gameState: GameState.started);
           return GameBloc(game);
         },
         act: (GameBloc gameBloc) => gameBloc.add(
@@ -330,11 +296,11 @@ main() {
     group('CreateGameEvent', () {
       blocTest(
         'should create new game',
-        build: () => GamesBloc(HashMap<String, Game>()),
+        build: () => GamesBloc(Games()),
         act: (GamesBloc gamesBloc) => gamesBloc.add(CreateGameEvent()),
-        expect: [isA<HashMap<String, Game>>()],
+        expect: [isA<Games>()],
         verify: (GamesBloc gamesBloc) {
-          int gamesNum = gamesBloc.state.length;
+          int gamesNum = gamesBloc.state.gamesMap.length;
           expect(gamesNum, 1);
         },
       );
@@ -344,19 +310,20 @@ main() {
       blocTest(
         'should delete an exisiting game',
         build: () {
-          HashMap<String, Game> gamesMap = HashMap<String, Game>();
           Game game = Game.newGame();
-          gamesMap[game.gameCode] = game;
-          return GamesBloc(gamesMap);
+          Games games = Games(gamesMap: {
+            game.gameCode: game,
+          });
+          return GamesBloc(games);
         },
         act: (GamesBloc gamesBloc) {
-          Game game = gamesBloc.state.values.first;
+          Game game = gamesBloc.state.gamesMap.values.first;
 
           gamesBloc.add(DeleteGameEvent(game: game));
         },
-        expect: [isA<HashMap<String, Game>>()],
+        expect: [isA<Games>()],
         verify: (GamesBloc gamesBloc) {
-          int gamesNum = gamesBloc.state.length;
+          int gamesNum = gamesBloc.state.gamesMap.length;
           expect(gamesNum, 0);
         },
       );

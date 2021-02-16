@@ -24,8 +24,10 @@ class _GameStartPageState extends State<GameStartPage> {
   final String gameCode;
   bool isValid = true;
   final _formKey = GlobalKey<FormBuilderState>(debugLabel: 'Game-Settings');
+  final Key _startGameErrorKey;
 
-  _GameStartPageState({@required this.gameCode});
+  _GameStartPageState({@required this.gameCode})
+      : _startGameErrorKey = Key('GamePlayingPage-$gameCode-StartGameEvent');
 
   Widget durationInput(BuildContext context, Game game) {
     Key errorKey = Key('Game-Start-Page-Duration');
@@ -170,6 +172,11 @@ class _GameStartPageState extends State<GameStartPage> {
                               margin: EdgeInsets.only(top: 30),
                               disabled: !isValid,
                               onPressed: () {
+                                context.read<GameBloc>().add(
+                                      StartGameEvent(
+                                        errorKey: _startGameErrorKey,
+                                      ),
+                                    );
                                 Navigator.pushNamedAndRemoveUntil(
                                   context,
                                   'games/${game.gameCode}/playing',
