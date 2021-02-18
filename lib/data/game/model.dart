@@ -1,5 +1,5 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:math_fast/data/model.dart';
 import 'package:math_fast/utils/exceptions/game_exceptions.dart';
 import 'package:math_fast/utils/helper_functions.dart';
 
@@ -38,14 +38,14 @@ class GameSettings {
 }
 
 @immutable
-class Game extends Model<Game> {
+class GameModel extends Equatable {
   final String gameCode;
   final GameState gameState;
   final bool isPaused;
   final GameSettings gameSettings;
 
   /// Create a game by passing parameters of the game
-  Game({
+  GameModel({
     String gameCode,
     GameSettings gameSettings,
     this.gameState: GameState.notStarted,
@@ -53,11 +53,10 @@ class Game extends Model<Game> {
     Map<Key, dynamic> errorMap,
   })  : this.gameCode = gameCode ?? genCode(prefix: 'GAM'),
         this.gameSettings =
-            gameSettings ?? GameSettings(GameDifficulty.easy, 30),
-        super(errorMap: errorMap ?? {});
+            gameSettings ?? GameSettings(GameDifficulty.easy, 30);
 
   /// Create a new game instance in a not started state
-  Game.newGame()
+  GameModel.newGame()
       : gameState = GameState.notStarted,
         isPaused = false,
         gameSettings = GameSettings(GameDifficulty.easy, 30),
@@ -77,7 +76,7 @@ class Game extends Model<Game> {
   bool get canEndGame => gameState != GameState.ended;
 
   /// Pause a started game
-  Game toggleGamePause() {
+  GameModel toggleGamePause() {
     if (!canPause)
       throw GameException(
         game: this,
@@ -88,7 +87,7 @@ class Game extends Model<Game> {
   }
 
   /// Change difficulty
-  Game changeDifficuty(GameDifficulty newDifficulty) {
+  GameModel changeDifficuty(GameDifficulty newDifficulty) {
     if (hasEnded) throw EndedGameException(game: this);
     if (hasStarted) throw GameAlreadyStartedException(game: this);
 
@@ -101,7 +100,7 @@ class Game extends Model<Game> {
   }
 
   /// Change duration
-  Game changeDuration(int newDuration) {
+  GameModel changeDuration(int newDuration) {
     if (hasEnded) throw EndedGameException(game: this);
     if (hasStarted) throw GameAlreadyStartedException(game: this);
 
@@ -114,7 +113,7 @@ class Game extends Model<Game> {
   }
 
   /// Changes game state to start
-  Game startGame() {
+  GameModel startGame() {
     if (hasEnded) throw EndedGameException(game: this);
     if (hasStarted) throw GameAlreadyStartedException(game: this);
 
@@ -122,7 +121,7 @@ class Game extends Model<Game> {
   }
 
   /// End the game if not already ended
-  Game endGame() {
+  GameModel endGame() {
     if (canEndGame) {
       return copyWith(gameState: GameState.ended);
     }
@@ -130,55 +129,19 @@ class Game extends Model<Game> {
     throw EndedGameException(game: this);
   }
 
-  Game copyWith({
+  GameModel copyWith({
     GameState gameState,
     bool isPaused,
     GameSettings gameSettings,
     Map<Key, dynamic> errorMap,
   }) =>
-      Game(
+      GameModel(
         gameCode: this.gameCode,
         gameState: gameState ?? this.gameState,
         isPaused: isPaused ?? this.isPaused,
         gameSettings: gameSettings ?? this.gameSettings,
-        errorMap: errorMap ?? this.errorMap,
       );
-}
-
-@immutable
-class Games extends Model<Games> {
-  final Map<String, Game> gamesMap;
-
-  Games({
-    this.gamesMap: const {},
-    Map<Key, dynamic> errorMap,
-  }) : super(errorMap: errorMap ?? {});
 
   @override
-  Games copyWith({
-    Map<Key, dynamic> errorMap,
-    Map<String, Game> gamesMap,
-  }) =>
-      Games(
-        gamesMap: gamesMap ?? this.gamesMap,
-        errorMap: errorMap ?? this.errorMap,
-      );
-
-  Games upsertGame(Game game) {
-    Map<String, Game> modifiedGamesMap = {...gamesMap};
-    modifiedGamesMap[game.gameCode] = game;
-
-    return copyWith(gamesMap: modifiedGamesMap);
-  }
-
-  Games removeGame(String gameCode) {
-    Map<String, Game> modifiedGamesMap = {...gamesMap};
-    modifiedGamesMap.remove(gameCode);
-
-    return copyWith(gamesMap: modifiedGamesMap);
-  }
-
-  Game getGame(String gameCode) {
-    return gamesMap[gameCode];
-  }
+  List<Object> get props => [gameCode, gameSettings, isPaused, gameState];
 }

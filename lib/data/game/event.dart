@@ -4,26 +4,36 @@ import 'package:math_fast/data/game/model.dart';
 
 abstract class GameEvent extends Event {
   final Key errorKey;
+  final GameModel game;
 
-  GameEvent({@required this.errorKey});
+  GameEvent({@required this.errorKey, @required this.game});
 }
 
 /// Start game event
 @immutable
 class StartGameEvent extends GameEvent {
-  StartGameEvent({@required Key errorKey}) : super(errorKey: errorKey);
+  StartGameEvent({
+    @required Key errorKey,
+    @required GameModel game,
+  }) : super(errorKey: errorKey, game: game);
 }
 
 /// Stop game event
 @immutable
 class StopGameEvent extends GameEvent {
-  StopGameEvent({@required Key errorKey}) : super(errorKey: errorKey);
+  StopGameEvent({
+    @required Key errorKey,
+    @required GameModel game,
+  }) : super(errorKey: errorKey, game: game);
 }
 
 /// Pause game event
 @immutable
 class PauseGameEvent extends GameEvent {
-  PauseGameEvent({@required Key errorKey}) : super(errorKey: errorKey);
+  PauseGameEvent({
+    @required Key errorKey,
+    @required GameModel game,
+  }) : super(errorKey: errorKey, game: game);
 }
 
 /// Modify game duration
@@ -34,7 +44,8 @@ class ChangeGameDuration extends GameEvent {
   ChangeGameDuration({
     @required this.newDuration,
     @required Key errorKey,
-  }) : super(errorKey: errorKey);
+    @required GameModel game,
+  }) : super(errorKey: errorKey, game: game);
 }
 
 /// Modify game difficulty
@@ -45,14 +56,15 @@ class ChangeGameDifficulty extends GameEvent {
   ChangeGameDifficulty({
     @required this.newDifficulty,
     @required Key errorKey,
-  }) : super(errorKey: errorKey);
+    @required GameModel game,
+  }) : super(errorKey: errorKey, game: game);
 }
 
 abstract class GamesEvent extends Event {}
 
 /// Create a new game and add to state
 @immutable
-class CreateGameEvent extends GamesEvent {
+class InsertGameEvent extends GamesEvent {
   final Game game;
 
   CreateGameEvent() : this.game = Game.newGame();
